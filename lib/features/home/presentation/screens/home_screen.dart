@@ -63,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           PageIndicators(
+                            pageNotifier: pageNotifier,
                             selectedRoomNotifier: roomSelectorNotifier,
                           ),
                           SmHomeBottomNavigationBar(
