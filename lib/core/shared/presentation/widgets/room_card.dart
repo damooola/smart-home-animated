@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:smart_home_animated/features/home/presentation/widgets/background_room_lights.dart';
 import 'package:ui_common/ui_common.dart';
+import '../../../../features/smart_room/screens/room_details_screen.dart';
 import '../../../core.dart';
 
 class RoomCard extends StatelessWidget {
@@ -53,18 +54,28 @@ class RoomCard extends StatelessWidget {
                   if (details.primaryDelta! < -10) onSwipeUp();
                   if (details.primaryDelta! > 10) onSwipeDown();
                 },
-                child: Stack(
-                  fit: StackFit.expand,
-                  clipBehavior: Clip.none,
-                  children: [
-                    ParallaxImageCard(
-                      imageUrl: room.imageUrl,
-                      parallaxValue: percent,
-                    ),
-                    VerticalRoomTitle(room: room),
-                    const CameraIconButton(),
-                    const AnimatedUpwardArrows()
-                  ],
+                child: Hero(
+                  flightShuttleBuilder: (_, animation, __, ___, ____) {
+                    return RoomDetailItems(
+                      room: room,
+                      topPadding: context.mediaQuery.padding.top,
+                      animation: animation,
+                    );
+                  },
+                  tag: room.id,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    clipBehavior: Clip.none,
+                    children: [
+                      ParallaxImageCard(
+                        imageUrl: room.imageUrl,
+                        parallaxValue: percent,
+                      ),
+                      VerticalRoomTitle(room: room),
+                      const CameraIconButton(),
+                      const AnimatedUpwardArrows()
+                    ],
+                  ),
                 ),
               ),
             ),
