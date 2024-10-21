@@ -6,9 +6,10 @@ class PageIndicators extends StatelessWidget {
   const PageIndicators({
     super.key,
     required this.selectedRoomNotifier,
+    required this.pageNotifier,
   });
 
-  final ValueNotifier selectedRoomNotifier;
+  final ValueNotifier selectedRoomNotifier, pageNotifier;
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -18,10 +19,14 @@ class PageIndicators extends StatelessWidget {
             opacity: selectedRoom == -1 ? 1 : 0,
             duration: const Duration(microseconds: 100),
             child: Center(
-              child: PageViewIndicators(
-                length: SmartRoom.fakeValues.length,
-                pageIndex: 2,
-              ),
+              child: ValueListenableBuilder(
+                  valueListenable: pageNotifier,
+                  builder: (_, pageIndex, __) {
+                    return PageViewIndicators(
+                      length: SmartRoom.fakeValues.length,
+                      pageIndex: pageIndex,
+                    );
+                  }),
             ),
           );
         });
