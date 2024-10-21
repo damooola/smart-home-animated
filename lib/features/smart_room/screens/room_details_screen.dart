@@ -32,56 +32,62 @@ class RoomDetailItems extends StatelessWidget {
     required this.room,
     required this.topPadding,
     super.key,
+    this.animation = const AlwaysStoppedAnimation<double>(1),
   });
 
   final double topPadding;
   final SmartRoom room;
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: [
-          ParallaxImageCard(imageUrl: room.imageUrl),
-          ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
-              child: const ColoredBox(color: Colors.transparent),
+    return Hero(
+      tag: room.id,
+      child: Material(
+        color: Colors.transparent,
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: [
+            ParallaxImageCard(imageUrl: room.imageUrl),
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                child: const ColoredBox(color: Colors.transparent),
+              ),
             ),
-          ),
-          // --------------------------------------------
-          // Animated output elements
-          // --------------------------------------------
-          // Stack(
-          //   children: [
-          //     VerticalRoomTitle(room: room),
-          //     const CameraIconButton(),
-          //     const AnimatedUpwardArrows(),
-          //   ],
-          // ),
-          // --------------------------------------------
-          // R‚oom controls
-          // --------------------------------------------
-          Container(
-            padding: EdgeInsets.only(top: topPadding + 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  room.name.replaceAll(' ', '\n'),
-                  textAlign: TextAlign.center,
-                  style: context.displaySmall.copyWith(height: .9),
-                ),
-                const Text('SETTINGS', textAlign: TextAlign.center),
-                Expanded(
-                  child: RoomDetailsPageView(room: room),
-                )
-              ],
+            // --------------------------------------------
+            // Animated output elements
+            // --------------------------------------------
+            // Stack(
+            //   children: [
+            //     VerticalRoomTitle(room: room),
+            //     const CameraIconButton(),
+            //     const AnimatedUpwardArrows(),
+            //   ],
+            // ),
+            // --------------------------------------------
+            // R‚oom controls
+            // --------------------------------------------
+            Container(
+              padding: EdgeInsets.only(top: topPadding + 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    room.name.replaceAll(' ', '\n'),
+                    textAlign: TextAlign.center,
+                    style: context.displaySmall.copyWith(height: .9),
+                  ),
+                  const Text('SETTINGS', textAlign: TextAlign.center),
+                  Expanded(
+                    child: RoomDetailsPageView(room: room),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
