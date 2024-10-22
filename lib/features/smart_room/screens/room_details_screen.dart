@@ -4,6 +4,8 @@ import 'package:smart_home_animated/core/shared/domain/entities/smart_room.dart'
 import 'package:smart_home_animated/core/shared/presentation/widgets/parallax_image_card.dart';
 import 'package:smart_home_animated/core/shared/presentation/widgets/sh_app_bar.dart';
 import 'package:ui_common/ui_common.dart';
+import '../../../core/shared/presentation/widgets/animated_upward_arrows.dart';
+import '../../../core/shared/presentation/widgets/room_card.dart';
 import '../widgets/room_details_page_view.dart';
 
 class RoomDetailScreen extends StatelessWidget {
@@ -41,10 +43,13 @@ class RoomDetailItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: room.id,
-      child: Material(
-        color: Colors.transparent,
+    final sigma = animation.value * 10;
+    final outDx = animation.value * 200;
+    final outDy = animation.value * 100;
+    return Material(
+      type: MaterialType.transparency,
+      child: Hero(
+        tag: room.id,
         child: Stack(
           alignment: Alignment.center,
           fit: StackFit.expand,
@@ -52,38 +57,53 @@ class RoomDetailItems extends StatelessWidget {
             ParallaxImageCard(imageUrl: room.imageUrl),
             ClipRRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                filter: ImageFilter.blur(sigmaY: sigma, sigmaX: sigma),
                 child: const ColoredBox(color: Colors.transparent),
               ),
             ),
             // --------------------------------------------
             // Animated output elements
             // --------------------------------------------
-            // Stack(
-            //   children: [
-            //     VerticalRoomTitle(room: room),
-            //     const CameraIconButton(),
-            //     const AnimatedUpwardArrows(),
-            //   ],
-            // ),
-            // --------------------------------------------
-            // R‚oom controls
-            // --------------------------------------------
-            Container(
-              padding: EdgeInsets.only(top: topPadding + 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            FadeTransition(
+              opacity: Tween<double>(begin: 1, end: 0).animate(animation),
+              child: Stack(
                 children: [
-                  Text(
-                    room.name.replaceAll(' ', '\n'),
-                    textAlign: TextAlign.center,
-                    style: context.displaySmall.copyWith(height: .9),
-                  ),
-                  const Text('SETTINGS', textAlign: TextAlign.center),
-                  Expanded(
-                    child: RoomDetailsPageView(room: room),
-                  )
+                  Transform.translate(
+                      offset: Offset(-outDx, 0),
+                      child: VerticalRoomTitle(room: room)),
+                  Transform.translate(
+                      offset: Offset(outDx, outDy),
+                      child: const CameraIconButton()),
+                  Transform.translate(
+                      offset: Offset(0, outDy),
+                      child: const AnimatedUpwardArrows()),
                 ],
+              ),
+            ),
+            // --------------------------------------------
+            // Room controls
+            // --------------------------------------------
+            FadeTransition(
+              opacity: animation,
+              child: Container(
+                padding: EdgeInsets.only(top: topPadding + 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      room.name.replaceAll(' ', '\n'),
+                      textAlign: TextAlign.center,
+                      style: context.displaySmall.copyWith(height: .9),
+                    ),
+                    const Text('SETTINGS', textAlign: TextAlign.center),
+                    Expanded(
+                      child: RoomDetailsPageView(
+                        room: room,
+                        animation: animation,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ],
