@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:smart_home_animated/core/theme/sh_colors.dart';
 import 'package:ui_common/ui_common.dart';
