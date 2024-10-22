@@ -16,13 +16,15 @@ class SmHomeBottomNavigationBar extends StatelessWidget {
       child: ValueListenableBuilder(
           valueListenable: selectedRoomNotifier,
           builder: (_, selectedRoom, builder) {
-            return AnimatedOpacity(
-              duration: const Duration(milliseconds: 200),
+            return
+                //animated opacity allows to dynamically set the transparency of a widget with a duration to set the speed of change
+                AnimatedOpacity(
+              duration: const Duration(milliseconds: 400),
               opacity: selectedRoom == -1 ? 1 : 0,
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 300),
                 transform: Matrix4.translationValues(
-                    0, selectedRoom == -1 ? 0 : 25, 0),
+                    0, selectedRoom == -1 ? 0 : 30, 0),
                 child: BottomNavigationBar(
                   items: const [
                     BottomNavigationBarItem(
