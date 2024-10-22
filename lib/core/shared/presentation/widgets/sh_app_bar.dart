@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_home_animated/core/theme/sh_icons.dart';
+import 'package:smart_home_animated/core/core.dart';
 
 class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ShAppBar({
@@ -16,6 +16,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             onPressed: () {},
             icon: const Icon(SHIcons.menu),
+            color: SHColors.hintColor,
           ),
         ),
       ),
@@ -27,6 +28,7 @@ class ShAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: IconButton(
               onPressed: () {},
               icon: const Icon(SHIcons.search),
+              color: SHColors.hintColor,
             ),
           ),
         ),
