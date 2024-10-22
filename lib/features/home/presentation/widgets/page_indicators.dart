@@ -17,7 +17,7 @@ class PageIndicators extends StatelessWidget {
         builder: (_, selectedRoom, builder) {
           return AnimatedOpacity(
             opacity: selectedRoom == -1 ? 1 : 0,
-            duration: const Duration(microseconds: 100),
+            duration: const Duration(microseconds: 200),
             child: Center(
               child: ValueListenableBuilder(
                   valueListenable: pageNotifier,
@@ -45,7 +45,6 @@ class PageViewIndicators extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final index = pageIndex;
     return SizedBox(
       height: 12,
       child: Stack(
@@ -64,7 +63,7 @@ class PageViewIndicators extends StatelessWidget {
             ],
           ),
           Positioned(
-            left: (22 * index),
+            left: (22 * pageIndex),
             child: const _BorderDot(),
           )
         ],
